@@ -23,6 +23,9 @@ export const registerUser = async (req: Request, res: Response) => {
     // Setting user data in session
     req.session.isLoggedIn = true;
     req.session.userId = newUser._id;
+    await new Promise<void>((resolve, reject) => {
+      req.session.save((err) => (err ? reject(err) : resolve()));
+    });
 
     return res.json({
       message: "Account created successfully",
@@ -56,6 +59,9 @@ export const loginUser = async (req: Request, res: Response) => {
     // Setting user data in session
     req.session.isLoggedIn = true;
     req.session.userId = user._id;
+    await new Promise<void>((resolve, reject) => {
+      req.session.save((err) => (err ? reject(err) : resolve()));
+    });
 
     return res.json({
       message: "Login successful",
