@@ -25,11 +25,14 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:3000",
       "https://ai-thumbnail-generator-fawn-iota.vercel.app",
     ],
     credentials: true,
   }),
 );
+
+app.set("trust proxy", 1);
 
 app.use(
   session({
@@ -38,8 +41,10 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: true,
-      sameSite: "none",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI as string,
