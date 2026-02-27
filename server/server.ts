@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import "dotenv/config";
 import connectDB from "./configs/db.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -19,6 +18,7 @@ declare module "express-session" {
 await connectDB();
 
 const app = express();
+app.set("trust proxy", 1);
 
 // Middleware
 app.use(
@@ -32,8 +32,6 @@ app.use(
   }),
 );
 
-app.set("trust proxy", 1);
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
@@ -42,8 +40,8 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       path: "/",
     },
     store: MongoStore.create({
