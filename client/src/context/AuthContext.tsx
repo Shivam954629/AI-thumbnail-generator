@@ -70,8 +70,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLoggedIn(true);
       }
       toast.success(data.message);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const message = error?.response?.data?.message || "Invalid credentials";
+      toast.error(message);
     }
   };
   const logout = async () => {
