@@ -37,19 +37,24 @@ const Generate = () => {
     if (!title.trim()) return toast.error("Title is required");
     setLoading(true);
 
-    const api_payload = {
-      title,
-      prompt: additionalDetails,
-      style,
-      aspect_ratio: aspectRatio,
-      color_scheme: colorSchemeId,
-      text_Overlay: true,
-    };
+    try {
+      const api_payload = {
+        title,
+        prompt: additionalDetails,
+        style,
+        aspect_ratio: aspectRatio,
+        color_scheme: colorSchemeId,
+        text_overlay: true,
+      };
 
-    const { data } = await api.post("/api/thumbnail/generate", api_payload);
-    if (data.thumbnail) {
-      navigate("/generate/" + data.thumbnail._id);
-      toast.success(data.message);
+      const { data } = await api.post("/api/thumbnail/generate", api_payload);
+      if (data.thumbnail) {
+        navigate("/generate/" + data.thumbnail._id);
+        toast.success(data.message);
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Failed to generate thumbnail");
+      setLoading(false);
     }
   };
 

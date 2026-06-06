@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://ai-thumbnail-generator-5zjw.onrender.com/api/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
