@@ -72,7 +72,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
 
     // Call Hugging Face API
     const hfResponse = await fetch(
-      "https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0",
+      "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell",
       {
         method: "POST",
         headers: {
@@ -84,8 +84,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
           parameters: {
             width: 1280,
             height: 720,
-            num_inference_steps: 30,
-            guidance_scale: 7.5,
+            num_inference_steps: 4,
           },
         }),
       },
