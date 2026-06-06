@@ -106,6 +106,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
     // Upload to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(filePath, {
       resource_type: "image",
+      secure: true,
     });
 
     thumbnail.image_url = uploadResult.url;
